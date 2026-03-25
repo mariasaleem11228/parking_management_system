@@ -54,3 +54,30 @@ Spring Modulith enforces strict module boundaries. If user_module tries to acces
 ```bash
 mvn test -Dtest=ArchitectureTest
 ```
+
+## 🗄️ Database Access (H2 Console)
+
+The H2 Console is a web-based interface to manage your database. 
+
+### 1. Access the UI
+Open your browser and navigate to: [http://localhost:8085/h2-console](http://localhost:8085/h2-console)
+
+### 2. Login Credentials
+Ensure the fields in the login screen match these settings exactly:
+
+| Field | Value |
+| :--- | :--- |
+| **Driver Class** | `org.h2.Driver` |
+| **JDBC URL (Local)** | `jdbc:h2:file:./data/modulith_db` |
+| **JDBC URL (Docker)** | `jdbc:h2:file:/opt/h2-data/modulith_db` |
+| **User Name** | `sa` |
+| **Password** | *(Leave Empty)* |
+
+> **Note:** If you are running locally, the JDBC URL must point to your project's `./data` folder. If you are running in Docker, use the `/opt/h2-data` path.
+
+### 3. Quick SQL Commands
+Once logged in, you can verify your data by running:
+```sql
+SELECT * FROM PRODUCT;
+SELECT * FROM USERS;
+```
