@@ -6,6 +6,7 @@ import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.AuthR
 import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.AuthUserResponse;
 import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.LoginRequest;
 import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.RegisterRequest;
+import de.codecentric.spring_modulith_example.user.nested_modules.auth.jwt.JwtService;
 import de.codecentric.spring_modulith_example.user.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
-    private static final String STATIC_TOKEN = "dev-token-placeholder";
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -32,7 +34,7 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
         }
 
-        return new AuthResponse(STATIC_TOKEN, toAuthUserResponse(user));
+        return new AuthResponse(jwtService.generateToken(user), toAuthUserResponse(user));
     }
 
     public ResponseEntity<AuthResponse> register(RegisterRequest request) {
@@ -55,7 +57,7 @@ public class AuthService {
         );
 
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(new AuthResponse(STATIC_TOKEN, toAuthUserResponse(savedUser)));
+            .body(new AuthResponse(jwtService.generateToken(savedUser), toAuthUserResponse(savedUser)));
     }
 
     public AuthUserResponse me() {

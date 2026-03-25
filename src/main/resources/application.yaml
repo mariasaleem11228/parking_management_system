@@ -23,6 +23,12 @@ spring:
     console:
       enabled: true
 
+app:
+  security:
+    jwt:
+      secret: cGFya2NpdHktZGV2LWtleS1mb3Itand0LXNpZ25pbmctcGxlYXNlLWNoYW5nZS1pbi1wcm9k
+      expiration-millis: 3600000
+
 ---
 # --- DOCKER PROFILE ---
 spring:
