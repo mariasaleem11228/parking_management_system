@@ -6,6 +6,7 @@ import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.Login
 import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.RegisterRequest;
 import de.codecentric.spring_modulith_example.user.nested_modules.auth.service.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,8 +34,8 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public AuthUserResponse me() {
-        return authService.me();
+    public AuthUserResponse me(Authentication authentication) {
+        return authService.me(authentication.getName());
     }
 
     @PostMapping("/logout")

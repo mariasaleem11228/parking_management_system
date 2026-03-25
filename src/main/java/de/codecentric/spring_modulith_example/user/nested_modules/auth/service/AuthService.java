@@ -60,8 +60,8 @@ public class AuthService {
             .body(new AuthResponse(jwtService.generateToken(savedUser), toAuthUserResponse(savedUser)));
     }
 
-    public AuthUserResponse me() {
-        var user = userRepository.findAll().stream().findFirst()
+    public AuthUserResponse me(String email) {
+        var user = userRepository.findByEmail(email)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No authenticated user context"));
 
         return toAuthUserResponse(user);
