@@ -7,7 +7,6 @@ import de.codecentric.spring_modulith_example.billing.service.BillingService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/billing")
@@ -42,15 +41,5 @@ public class BillingController {
     @PostMapping("/invoices/{id}/pay")
     public Invoice payInvoice(@PathVariable Long id, @RequestBody PayInvoiceRequest request) {
         return billingService.payInvoice(id, request);
-    }
-
-    @GetMapping("/state/{reservationId}")
-    public Map<String, Object> getBillingState(@PathVariable Long reservationId) {
-        return billingService.getBillingState(reservationId);
-    }
-
-    @GetMapping("/stats")
-    public Map<String, Object> getStats() {
-        return billingService.getStats();
     }
 }

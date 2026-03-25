@@ -7,9 +7,7 @@ import de.codecentric.spring_modulith_example.billing.repository.InvoiceReposito
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BillingService {
@@ -60,31 +58,5 @@ public class BillingService {
         invoice.setPaidAt(LocalDateTime.now().toString());
 
         return invoiceRepository.save(invoice);
-    }
-
-    public Map<String, Object> getBillingState(Long reservationId) {
-        Invoice invoice = invoiceRepository.findByReservationId(reservationId)
-                .orElseThrow(() -> new RuntimeException("Billing state not found"));
-
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put("reservationId", invoice.getReservationId());
-        result.put("invoiceId", invoice.getId());
-        result.put("status", invoice.getStatus());
-        result.put("amount", invoice.getAmount());
-        return result;
-    }
-
-    public Map<String, Object> getStats() {
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put("daily", List.of(
-                Map.of("day", "Mon", "revenue", 48.50),
-                Map.of("day", "Tue", "revenue", 72.00),
-                Map.of("day", "Wed", "revenue", 65.00),
-                Map.of("day", "Thu", "revenue", 90.00),
-                Map.of("day", "Fri", "revenue", 110.00),
-                Map.of("day", "Sat", "revenue", 95.00),
-                Map.of("day", "Sun", "revenue", 58.00)
-        ));
-        return result;
     }
 }
