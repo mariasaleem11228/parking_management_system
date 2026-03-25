@@ -3,6 +3,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+data/
+h2-data/
+*.mv.db
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws
