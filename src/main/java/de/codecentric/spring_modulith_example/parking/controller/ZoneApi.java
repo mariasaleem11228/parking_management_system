@@ -10,7 +10,7 @@ import java.util.List;
 import static de.codecentric.spring_modulith_example.parking.controller.ParkingDtos.*;
 
 @RestController
-@RequestMapping("/zones")
+@RequestMapping("/api/zones")
 public class ZoneApi {
     private final ParkingManagementService parkingManagementService;
 

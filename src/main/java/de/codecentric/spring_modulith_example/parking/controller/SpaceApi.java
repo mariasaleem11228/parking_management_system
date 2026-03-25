@@ -11,7 +11,7 @@ import java.util.List;
 import static de.codecentric.spring_modulith_example.parking.controller.ParkingDtos.*;
 
 @RestController
-@RequestMapping("/spaces")
+@RequestMapping("/api/spaces")
 public class SpaceApi {
     private final ParkingManagementService parkingManagementService;
 

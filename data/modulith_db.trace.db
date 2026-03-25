@@ -1,3 +1,0 @@
-2026-03-25 12:22:49.692757+01:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ZONE" not found; SQL statement:
-INSERT INTO ZONE (ID, NAME, CITY, DESCRIPTION, LATITUDE, LONGITUDE, CAPACITY) VALUES (1, 'Zone A - Central', 'Berlin', 'Main downtown parking zone', 52.5200, 13.4050, 5) [42102-240]
