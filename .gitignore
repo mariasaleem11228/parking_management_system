@@ -7,6 +7,12 @@ data/
 h2-data/
 *.mv.db
 
+node_modules/
+**/node_modules/
+.cache/
+dist/
+build/
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws
