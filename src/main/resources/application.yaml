@@ -1,7 +1,15 @@
+# --- GLOBAL / DEFAULT (Your Local Machine) ---
 server:
   port: 8085
 
 spring:
+  application:
+    name: parking-management-system
+  docker:
+    compose:
+      # This stops Spring from trying to launch Docker automatically
+      # when you run 'mvn spring-boot:run' locally.
+      enabled: false
   datasource:
     url: jdbc:h2:file:./data/modulith_db
     driver-class-name: org.h2.Driver
