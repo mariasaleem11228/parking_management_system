@@ -17,8 +17,14 @@ public class User {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
+    private String name;
+
+    @NotNull
     @Column(nullable = false, unique = true)
-    private String username;
+    private String email;
+
+    private String licensePlate;
 
     @NotNull
     @Column(nullable = false)
@@ -36,8 +42,10 @@ public class User {
         // Required by JPA.
     }
 
-    public User(String username, String passwordHash, UserRole role) {
-        this.username = username;
+    public User(String name, String email, String licensePlate, String passwordHash, UserRole role) {
+        this.name = name;
+        this.email = email;
+        this.licensePlate = licensePlate;
         this.passwordHash = passwordHash;
         this.role = role;
         this.enabled = true;
@@ -47,8 +55,16 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
     }
 
     public String getPasswordHash() {
