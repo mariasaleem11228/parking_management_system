@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      # Maps your laptop's folder to the container's folder
+      - ./docker-h2-data:/opt/h2-data
+
+volumes:
+  docker-h2-data:
