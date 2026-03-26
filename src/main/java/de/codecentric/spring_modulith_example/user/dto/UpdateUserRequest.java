@@ -1,0 +1,15 @@
+package de.codecentric.spring_modulith_example.user.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record UpdateUserRequest(
+    @NotBlank String name,
+    @NotBlank @Email String email,
+    @Size(min = 6, max = 72) String password,
+    @NotBlank String role,
+    String licensePlate
+) {
+    // NOOP
+}
