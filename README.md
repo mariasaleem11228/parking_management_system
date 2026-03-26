@@ -4,6 +4,18 @@ This application is built with **Spring Modulith** and **Java 21**. It is design
 
 ---
 
+## Prerequisites
+
+- Java 21
+- Maven 3.9+
+- Node.js 18+ and npm
+- (Optional) Docker + Docker Compose
+
+## Project Structure
+
+- Backend: current folder (Spring Boot, port 8085)
+- Frontend: `parking-ui/` (React dev server, port 3000)
+
 ## 🛠 Running Locally (Without Docker)
 
 Use these commands for the fastest development loop. When running locally, your database files are persisted in the `./data` folder.
@@ -18,6 +30,33 @@ Use these commands for the fastest development loop. When running locally, your 
 | `mvn clean install` | Deletes `target/`, compiles, and installs | `rm -rf build && pip install -e .` |
 | **`mvn spring-boot:run`** | **Runs the Spring Boot application** | `python main.py` |
 | `mvn clean test` | Clean build and run all tests | `rm -rf .pytest_cache && pytest` |
+
+### 1. Start backend
+
+From project root:
+
+```bash
+mvn -q -DskipTests compile && echo BUILD_OK
+mvn spring-boot:run
+```
+
+Backend runs at:
+
+- `http://localhost:8085`
+
+### 2. Start frontend
+
+In a new terminal:
+
+```bash
+cd parking-ui
+npm install
+npm start
+```
+
+Frontend runs at:
+
+- `http://localhost:3000`
 
 ---
 
@@ -55,6 +94,11 @@ Spring Modulith enforces strict module boundaries. If user_module tries to acces
 mvn test -Dtest=ArchitectureTest
 ```
 
+Running all tests:
+```bash
+mvn clean test
+```
+
 ## 🗄️ Database Access (H2 Console)
 
 The H2 Console is a web-based interface to manage your database. 
@@ -75,9 +119,83 @@ Ensure the fields in the login screen match these settings exactly:
 
 > **Note:** If you are running locally, the JDBC URL must point to your project's `./data` folder. If you are running in Docker, use the `/opt/h2-data` path.
 
-### 3. Quick SQL Commands
-Once logged in, you can verify your data by running:
+## How To Promote a User to ADMIN (H2)
+
+Use this to access `/admin/*` routes in the UI.
+
+### 1. Open H2 Console
+
+Go to:
+
+- `http://localhost:8085/h2-console`
+
+### 2. Use these connection settings
+
+- Driver Class: `org.h2.Driver`
+- JDBC URL (local): `jdbc:h2:file:./data/modulith_db`
+- User Name: `sa`
+- Password: leave empty
+
+If you are running via Docker, use:
+
+- JDBC URL (docker): `jdbc:h2:file:/opt/h2-data/modulith_db`
+
+### 3. Promote the user
+
+Run SQL:
+
 ```sql
-SELECT * FROM PRODUCT;
-SELECT * FROM USERS;
+UPDATE users
+SET role = 'ADMIN'
+WHERE email = 'your-email@example.com';
+```
+
+Verify:
+
+```sql
+SELECT id, name, email, role, enabled
+FROM users;
+```
+
+### 4. Logout and login again
+
+The frontend stores role in local storage at login time, so you must login again after role change.
+
+## Useful Commands
+
+From project root:
+
+```bash
+mvn -q -DskipTests compile && echo BUILD_OK
+mvn clean test
+mvn -q -DskipTests package && echo PACKAGE_OK
+```
+
+From `parking-ui/`:
+
+```bash
+npm start
+npm run build
+```
+
+## API Smoke Checks (Optional)
+
+Get token:
+
+```bash
+TOKEN=$(curl -s -X POST "http://localhost:8085/api/auth/login" \
+	-H "Content-Type: application/json" \
+	-d '{"email":"your-email@example.com","password":"your-password"}' | jq -r '.token')
+```
+
+Check current user:
+
+```bash
+curl -i "http://localhost:8085/api/auth/me" -H "Authorization: Bearer $TOKEN"
+```
+
+Check admin users endpoint (requires ADMIN role):
+
+```bash
+curl -i "http://localhost:8085/api/users" -H "Authorization: Bearer $TOKEN"
 ```
