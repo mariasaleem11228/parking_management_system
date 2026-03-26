@@ -14,13 +14,14 @@ C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_exampl
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\inventory\ProductCreatedListener.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\inventory\QuantityChanged.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\inventory\repository\StockRepository.java
-C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\controller\ParkingDtos.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\controller\SpaceApi.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\controller\ZoneApi.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\model\Space.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\model\SpaceStatus.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\model\Zone.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\package-info.java
+C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\ParkingApi.java
+C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\ParkingDtos.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\repository\SpaceRepository.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\repository\ZoneRepository.java
 C:\parking_management_system\src\main\java\de\codecentric\spring_modulith_example\parking\service\ParkingManagementService.java

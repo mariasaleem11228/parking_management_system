@@ -1,9 +1,10 @@
 package de.codecentric.spring_modulith_example.parking.service;
 
-import de.codecentric.spring_modulith_example.parking.controller.ParkingDtos.SpaceRequest;
-import de.codecentric.spring_modulith_example.parking.controller.ParkingDtos.SpaceResponse;
-import de.codecentric.spring_modulith_example.parking.controller.ParkingDtos.ZoneRequest;
-import de.codecentric.spring_modulith_example.parking.controller.ParkingDtos.ZoneResponse;
+import de.codecentric.spring_modulith_example.parking.ParkingApi;
+import de.codecentric.spring_modulith_example.parking.ParkingDtos.SpaceRequest;
+import de.codecentric.spring_modulith_example.parking.ParkingDtos.SpaceResponse;
+import de.codecentric.spring_modulith_example.parking.ParkingDtos.ZoneRequest;
+import de.codecentric.spring_modulith_example.parking.ParkingDtos.ZoneResponse;
 import de.codecentric.spring_modulith_example.parking.model.Space;
 import de.codecentric.spring_modulith_example.parking.model.SpaceStatus;
 import de.codecentric.spring_modulith_example.parking.model.Zone;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ParkingManagementService {
+public class ParkingManagementService implements ParkingApi {
     private final ZoneRepository zoneRepository;
     private final SpaceRepository spaceRepository;
 
@@ -25,31 +26,36 @@ public class ParkingManagementService {
         this.spaceRepository = spaceRepository;
     }
 
+    @Override
     public List<ZoneResponse> getZones() {
         return zoneRepository.findAll().stream().map(ZoneResponse::from).toList();
     }
 
+    @Override
     public ZoneResponse getZone(Long id) {
         return ZoneResponse.from(findZone(id));
     }
 
+    @Override
     public ZoneResponse createZone(ZoneRequest request) {
         Zone zone = new Zone();
         applyZone(zone, request);
         return ZoneResponse.from(zoneRepository.save(zone));
     }
 
+    @Override
     public ZoneResponse updateZone(Long id, ZoneRequest request) {
         Zone zone = findZone(id);
         applyZone(zone, request);
         return ZoneResponse.from(zone);
     }
 
+    @Override
     public void deleteZone(Long id) {
         zoneRepository.delete(findZone(id));
     }
 
-    public List<SpaceResponse> getSpaces(Long zoneId, SpaceStatus status) {
+    @Override    public List<SpaceResponse> getSpaces(Long zoneId, SpaceStatus status) {
         List<Space> spaces;
         if (zoneId != null && status != null) {
             spaces = spaceRepository.findByZoneIdAndStatus(zoneId, status);
@@ -63,10 +69,12 @@ public class ParkingManagementService {
         return spaces.stream().map(SpaceResponse::from).toList();
     }
 
+    @Override
     public SpaceResponse getSpace(Long id) {
         return SpaceResponse.from(findSpace(id));
     }
 
+    @Override
     public SpaceResponse createSpace(SpaceRequest request) {
         Zone zone = findZone(request.zoneId());
         validateZoneCapacity(zone, null);
@@ -75,6 +83,7 @@ public class ParkingManagementService {
         return SpaceResponse.from(spaceRepository.save(space));
     }
 
+    @Override
     public SpaceResponse updateSpace(Long id, SpaceRequest request) {
         Space space = findSpace(id);
         Zone targetZone = findZone(request.zoneId());
@@ -83,10 +92,12 @@ public class ParkingManagementService {
         return SpaceResponse.from(space);
     }
 
+    @Override
     public void deleteSpace(Long id) {
         spaceRepository.delete(findSpace(id));
     }
 
+    
     private void applyZone(Zone zone, ZoneRequest request) {
         zone.setName(request.name());
         zone.setCity(request.city());
@@ -123,4 +134,20 @@ public class ParkingManagementService {
     private Space findSpace(Long id) {
         return spaceRepository.findById(id).orElseThrow();
     }
+
+    @Transactional
+public String reserveSpace(String spaceName) {
+
+    Space space = spaceRepository.findByName(spaceName)
+            .orElseThrow(() -> new RuntimeException("Space not found"));
+
+    if (space.getStatus() != SpaceStatus.FREE) {
+        return "Space is not available. Current status: " + space.getStatus();
+    }
+
+    space.setStatus(SpaceStatus.RESERVED);
+    spaceRepository.save(space);
+
+    return "Space " + spaceName + " has been successfully reserved";
+}
 }
