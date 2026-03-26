@@ -55,7 +55,8 @@ public class ParkingManagementService implements ParkingApi {
         zoneRepository.delete(findZone(id));
     }
 
-    @Override    public List<SpaceResponse> getSpaces(Long zoneId, SpaceStatus status) {
+    @Override    
+    public List<SpaceResponse> getSpaces(Long zoneId, SpaceStatus status) {
         List<Space> spaces;
         if (zoneId != null && status != null) {
             spaces = spaceRepository.findByZoneIdAndStatus(zoneId, status);
@@ -136,18 +137,18 @@ public class ParkingManagementService implements ParkingApi {
     }
 
     @Transactional
-public String reserveSpace(String spaceName) {
+    public String reserveSpace(String spaceName) {
 
-    Space space = spaceRepository.findByName(spaceName)
-            .orElseThrow(() -> new RuntimeException("Space not found"));
+        Space space = spaceRepository.findByName(spaceName)
+                .orElseThrow(() -> new RuntimeException("Space not found"));
 
-    if (space.getStatus() != SpaceStatus.FREE) {
-        return "Space is not available. Current status: " + space.getStatus();
+        if (space.getStatus() != SpaceStatus.FREE) {
+            return "Space is not available. Current status: " + space.getStatus();
+        }
+
+        space.setStatus(SpaceStatus.RESERVED);
+        spaceRepository.save(space);
+
+        return "Space " + spaceName + " has been successfully reserved";
     }
-
-    space.setStatus(SpaceStatus.RESERVED);
-    spaceRepository.save(space);
-
-    return "Space " + spaceName + " has been successfully reserved";
-}
 }

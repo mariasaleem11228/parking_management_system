@@ -18,9 +18,9 @@ import static de.codecentric.spring_modulith_example.parking.ParkingDtos.*;
 public class SpaceApi {
     private final ParkingApi parkingApi;
 
-public SpaceApi(ParkingApi parkingApi) {
-    this.parkingApi = parkingApi;
-}
+    public SpaceApi(ParkingApi parkingApi) {
+        this.parkingApi = parkingApi;
+    }
 
     @GetMapping
     public List<SpaceResponse> getSpaces(
