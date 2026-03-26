@@ -1,5 +1,6 @@
 package de.codecentric.spring_modulith_example.reservation.api;
 
+import de.codecentric.spring_modulith_example.reservation.adapter.user.UserClient;
 import de.codecentric.spring_modulith_example.reservation.application.ReservationService;
 import de.codecentric.spring_modulith_example.reservation.application.dto.FinishReservationCommand;
 import de.codecentric.spring_modulith_example.reservation.application.dto.ReserveCommand;
@@ -17,20 +18,35 @@ import java.util.Map;
 public class ReservationController {
 
     private final ReservationService service;
+    private final UserClient userClient;
 
-    public ReservationController(ReservationService service) {
+    public ReservationController(ReservationService service, UserClient userClient) {
         this.service = service;
+        this.userClient = userClient;
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Map<String, String>> reserve(@RequestBody ReserveCommand cmd) {
+    public ResponseEntity<Map<String, String>> reserve(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody ReserveCommand cmd) {
+
+        // Extract JWT from "Bearer <token>"
+        String token = authHeader.replace("Bearer ", "");
+        userClient.setToken(token);
+
         String reservationId = service.reserve(cmd).getValue();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Map.of("reservationId", reservationId));
     }
 
     @PostMapping("/{id}/finish")
-    public ResponseEntity<Map<String, String>> finish(@PathVariable String id) {
+    public ResponseEntity<Map<String, String>> finish(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable String id) {
+
+        String token = authHeader.replace("Bearer ", "");
+        userClient.setToken(token);
+
         service.finish(new FinishReservationCommand(id));
         return ResponseEntity.ok(Map.of("message", "Reservation finished, payment pending"));
     }

@@ -13,9 +13,9 @@ import de.codecentric.spring_modulith_example.reservation.domain.model.Reservati
 import de.codecentric.spring_modulith_example.reservation.domain.model.ReservationId;
 import de.codecentric.spring_modulith_example.reservation.domain.service.PricingService;
 import de.codecentric.spring_modulith_example.reservation.port.BillingPublisher;
+import de.codecentric.spring_modulith_example.reservation.port.IUserClient;
 import de.codecentric.spring_modulith_example.reservation.port.ParkingClient;
 import de.codecentric.spring_modulith_example.reservation.port.ReservationRepository;
-import de.codecentric.spring_modulith_example.reservation.port.UserClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 @Service
 public class ReservationService {
 
-    private final UserClient userClient;
+    private final IUserClient userClient;
     private final ParkingClient parkingClient;
     private final ReservationRepository repository;
     private final PricingService pricingService;
@@ -33,7 +33,7 @@ public class ReservationService {
     private final ApplicationEventPublisher eventPublisher;
 
     public ReservationService(
-            UserClient userClient,
+            IUserClient userClient,
             ParkingClient parkingClient,
             ReservationRepository repository,
             PricingService pricingService,
