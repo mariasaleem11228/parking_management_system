@@ -1,10 +1,5 @@
 package de.codecentric.spring_modulith_example.user.auth.controller;
 
-import de.codecentric.spring_modulith_example.user.auth.dto.AuthResponse;
-import de.codecentric.spring_modulith_example.user.auth.dto.AuthUserResponse;
-import de.codecentric.spring_modulith_example.user.auth.dto.LoginRequest;
-import de.codecentric.spring_modulith_example.user.auth.dto.RegisterRequest;
-import de.codecentric.spring_modulith_example.user.auth.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import de.codecentric.spring_modulith_example.user.auth.dto.AuthResponse;
+import de.codecentric.spring_modulith_example.user.auth.dto.AuthUserResponse;
+import de.codecentric.spring_modulith_example.user.auth.dto.LoginRequest;
+import de.codecentric.spring_modulith_example.user.auth.dto.RegisterRequest;
+import de.codecentric.spring_modulith_example.user.auth.service.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")

@@ -1,4 +1,4 @@
-package de.codecentric.spring_modulith_example.user.config;
+package de.codecentric.spring_modulith_example.user.auth.config;
 
 import de.codecentric.spring_modulith_example.user.auth.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;

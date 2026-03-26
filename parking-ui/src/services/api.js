@@ -8,8 +8,9 @@ const api = axios.create({
 
 // Attach JWT on every request
 api.interceptors.request.use((config) => {
+  const isPublicAuthCall = config.url?.includes('/auth/login') || config.url?.includes('/auth/register');
   const token = localStorage.getItem('token');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  if (token && !isPublicAuthCall) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
@@ -26,43 +27,43 @@ api.interceptors.response.use(
   }
 );
 
-// ── MOCK AUTH (no backend needed) ───────────────────────────────
-// Remove this block and uncomment the real authApi below once your backend is ready.
-const DEMO_USERS = [
-  { id: 1, name: 'Admin User',  email: 'admin@city.gov',   password: 'admin',   role: 'ADMIN'   },
-  { id: 2, name: 'Jane Doe',    email: 'jane@example.com', password: 'citizen', role: 'CITIZEN' },
-];
+// // ── MOCK AUTH (no backend needed) ───────────────────────────────
+// // Remove this block and uncomment the real authApi below once your backend is ready.
+// const DEMO_USERS = [
+//   { id: 1, name: 'Admin User',  email: 'admin@city.gov',   password: 'admin',   role: 'ADMIN'   },
+//   { id: 2, name: 'Jane Doe',    email: 'jane@example.com', password: 'citizen', role: 'CITIZEN' },
+// ];
 
-const fakeDelay = (ms = 400) => new Promise(r => setTimeout(r, ms));
+// const fakeDelay = (ms = 400) => new Promise(r => setTimeout(r, ms));
 
-export const authApi = {
-  login: async ({ email, password }) => {
-    await fakeDelay();
-    const user = DEMO_USERS.find(u => u.email === email && u.password === password);
-    if (!user) throw { response: { data: { message: 'Invalid email or password' } } };
-    const { password: _, ...safeUser } = user;
-    return { data: { token: 'mock-jwt-token', user: safeUser } };
-  },
-  register: async (data) => {
-    await fakeDelay();
-    if (DEMO_USERS.find(u => u.email === data.email))
-      throw { response: { data: { message: 'Email already in use' } } };
-    const newUser = { id: Date.now(), name: data.name, email: data.email, role: 'CITIZEN' };
-    DEMO_USERS.push({ ...newUser, password: data.password });
-    return { data: { token: 'mock-jwt-token', user: newUser } };
-  },
-  me:     async () => { await fakeDelay(); return { data: null }; },
-  logout: async () => { await fakeDelay(); return { data: {} }; },
-};
+// export const authApi = {
+//   login: async ({ email, password }) => {
+//     await fakeDelay();
+//     const user = DEMO_USERS.find(u => u.email === email && u.password === password);
+//     if (!user) throw { response: { data: { message: 'Invalid email or password' } } };
+//     const { password: _, ...safeUser } = user;
+//     return { data: { token: 'mock-jwt-token', user: safeUser } };
+//   },
+//   register: async (data) => {
+//     await fakeDelay();
+//     if (DEMO_USERS.find(u => u.email === data.email))
+//       throw { response: { data: { message: 'Email already in use' } } };
+//     const newUser = { id: Date.now(), name: data.name, email: data.email, role: 'CITIZEN' };
+//     DEMO_USERS.push({ ...newUser, password: data.password });
+//     return { data: { token: 'mock-jwt-token', user: newUser } };
+//   },
+//   me:     async () => { await fakeDelay(); return { data: null }; },
+//   logout: async () => { await fakeDelay(); return { data: {} }; },
+// };
 
 // ── USER MODULE  (/api/users, /api/auth) ─────────────────────────
 // Uncomment below and remove the MOCK block above when backend is ready:
-// export const authApi = {
-//   login:    (credentials)  => api.post('/auth/login', credentials),
-//   register: (data)         => api.post('/auth/register', data),
-//   me:       ()             => api.get('/auth/me'),
-//   logout:   ()             => api.post('/auth/logout'),
-// };
+export const authApi = {
+  login:    (credentials)  => api.post('/auth/login', credentials),
+  register: (data)         => api.post('/auth/register', data),
+  me:       ()             => api.get('/auth/me'),
+  logout:   ()             => api.post('/auth/logout'),
+};
 
 export const userApi = {
   getAll:   (params)       => api.get('/users', { params }),
