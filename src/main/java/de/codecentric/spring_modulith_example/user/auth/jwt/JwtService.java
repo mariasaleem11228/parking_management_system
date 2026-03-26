@@ -1,4 +1,4 @@
-package de.codecentric.spring_modulith_example.user.nested_modules.auth.jwt;
+package de.codecentric.spring_modulith_example.user.auth.jwt;
 
 import de.codecentric.spring_modulith_example.user.model.User;
 import io.jsonwebtoken.Claims;

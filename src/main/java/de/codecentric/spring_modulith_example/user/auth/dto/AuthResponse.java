@@ -1,4 +1,4 @@
-package de.codecentric.spring_modulith_example.user.nested_modules.auth.dto;
+package de.codecentric.spring_modulith_example.user.auth.dto;
 
 public record AuthResponse(
     String token,

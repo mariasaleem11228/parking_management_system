@@ -1,12 +1,12 @@
-package de.codecentric.spring_modulith_example.user.nested_modules.auth.service;
+package de.codecentric.spring_modulith_example.user.auth.service;
 
 import de.codecentric.spring_modulith_example.user.model.User;
 import de.codecentric.spring_modulith_example.user.model.UserRole;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.AuthResponse;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.AuthUserResponse;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.LoginRequest;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.RegisterRequest;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.jwt.JwtService;
+import de.codecentric.spring_modulith_example.user.auth.dto.AuthResponse;
+import de.codecentric.spring_modulith_example.user.auth.dto.AuthUserResponse;
+import de.codecentric.spring_modulith_example.user.auth.dto.LoginRequest;
+import de.codecentric.spring_modulith_example.user.auth.dto.RegisterRequest;
+import de.codecentric.spring_modulith_example.user.auth.jwt.JwtService;
 import de.codecentric.spring_modulith_example.user.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

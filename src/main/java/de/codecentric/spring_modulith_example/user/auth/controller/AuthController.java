@@ -1,10 +1,10 @@
-package de.codecentric.spring_modulith_example.user.nested_modules.auth.controller;
+package de.codecentric.spring_modulith_example.user.auth.controller;
 
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.AuthResponse;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.AuthUserResponse;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.LoginRequest;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.dto.RegisterRequest;
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.service.AuthService;
+import de.codecentric.spring_modulith_example.user.auth.dto.AuthResponse;
+import de.codecentric.spring_modulith_example.user.auth.dto.AuthUserResponse;
+import de.codecentric.spring_modulith_example.user.auth.dto.LoginRequest;
+import de.codecentric.spring_modulith_example.user.auth.dto.RegisterRequest;
+import de.codecentric.spring_modulith_example.user.auth.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;

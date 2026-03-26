@@ -1,6 +1,6 @@
 package de.codecentric.spring_modulith_example.user.config;
 
-import de.codecentric.spring_modulith_example.user.nested_modules.auth.jwt.JwtAuthenticationFilter;
+import de.codecentric.spring_modulith_example.user.auth.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
